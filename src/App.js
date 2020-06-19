@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ListInput from "./components/ListInput";
+import ListDisplay from "./components/ListDisplay";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      todos: [],
+    };
+    this.addToList = this.addToList.bind(this);
+    this.removeFromList = this.removeFromList.bind(this);
+  }
+
+  addToList(item) {
+    this.setState({ todos: [...this.state.todos, item] });
+  }
+
+  removeFromList(index) {
+    const tempArr = this.state.todos.slice();
+    tempArr.splice(index, 1);
+    this.setState({ todos: tempArr });
+  }
+
+  render() {
+    return (
+      <>
+        <h1>My Todo List</h1>
+        <ListInput addToList={this.addToList} />
+        <ListDisplay
+          removeFromList={this.removeFromList}
+          todos={this.state.todos}
+        />
+      </>
+    );
+  }
 }
 
 export default App;
